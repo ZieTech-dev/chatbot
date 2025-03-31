@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <script>
+        function sendMessage() {
+            var message = document.getElementById("userMessage").value;
+            fetch('/chatbot/', {
+                method: 'POST',
+                body: new URLSearchParams("message=" + message),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var chat = document.getElementById("chat");
+                chat.innerHTML += "<p><strong>Vous:</strong> " + message + "</p>";
+                chat.innerHTML += "<p><strong>Bot:</strong> " + data.response + "</p>";
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="chat">
+        <!-- Les messages apparaîtront ici -->
+    </div>
+    <input type="text" id="userMessage" placeholder="Tapez un message...">
+    <button onclick="sendMessage()">Envoyer</button>
+</body>
+</html>
